@@ -1,46 +1,41 @@
-# azure-pipelines.yml
-
 trigger:
-  branches:
-    include:
-      - main  # Adjust the branch name as per your setup
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
 
 variables:
-  terraformVersion: '1.0.11'  # Adjust version as needed
+  ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
+  ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+  ARM_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+  ARM_TENANT_ID: $(AZURE_TENANT_ID)
 
-stages:
-- stage: Terraform_Stage
-  displayName: "Terraform Deployment Pipeline"
-  jobs:
-    - job: Terraform_Job
-      displayName: "Run Terraform"
-      pool:
-        vmImage: 'ubuntu-latest'  # Use an image with Terraform support
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
 
-      steps:
-      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-        displayName: "Install Terraform"
-        inputs:
-          terraformVersion: $(terraformVersion)
+- script: |
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    sudo apt-get update && sudo apt-get install -y jq
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+    sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+    sudo apt-get update && sudo apt-get install terraform
+  displayName: 'Install Terraform and Azure CLI'
 
-      - task: AzureCLI@2
-        displayName: "Azure CLI Login"
-        inputs:
-          azureSubscription: 'azure_connection'
-          scriptType: bash
-          scriptLocation: inlineScript
-          inlineScript: |
-            az login --service-principal -u $(AZURE_CLIENT_ID) -p $(AZURE_CLIENT_SECRET) --tenant $(AZURE_TENANT_ID)
+- checkout: self
 
-      - script: terraform init
-        displayName: "Terraform Init"
-        workingDirectory: $(System.DefaultWorkingDirectory)
+- script: terraform init
+  displayName: 'Terraform Init'
 
-      - script: terraform plan -out=tfplan
-        displayName: "Terraform Plan"
-        workingDirectory: $(System.DefaultWorkingDirectory)
+- script: terraform plan -out=tfplan
+  displayName: 'Terraform Plan'
 
-      - script: terraform apply -auto-approve tfplan
-        displayName: "Terraform Apply"
-        workingDirectory: $(System.DefaultWorkingDirectory)
-        condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')  # Applies only on main branch
+- script: terraform apply -input=false tfplan
+  displayName: 'Terraform Apply'
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
