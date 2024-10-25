@@ -13,7 +13,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: '${SERVICECONNECTION}'
+        backendServiceArm: '${azure_connection}'
         backendAzureRmResourceGroupName: 'demo-resources'
         backendAzureRmStorageAccountName: 'techtutorialswithpiyush'
         backendAzureRmContainerName: 'prod-tfstate'
@@ -30,7 +30,7 @@ stages:
         command: 'custom'
         customCommand: 'fmt'
         outputTo: 'console'
-        environmentServiceNameAzureRM: '${SERVICECONNECTION}'
+        environmentServiceNameAzureRM: '${azure_connection}'
       
     - task: TerraformTaskV4@4
       displayName: Tf plan
@@ -38,7 +38,7 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         commandOptions: '-out $(Build.SourcesDirectory)/tfplanfile'
-        environmentServiceNameAzureRM: '${SERVICECONNECTION}'
+        environmentServiceNameAzureRM: '${azure_connection}'
       
     - task: ArchiveFiles@2
       displayName: Archive files
