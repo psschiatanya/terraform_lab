@@ -11,6 +11,8 @@ provider "azurerm" {
   features {}
    # Optional: Specify the subscription ID if needed
   subscription_id = "b5ab04a8-e99d-4a42-820b-f823d113ed94"
+  tenant_id = "ab5765fe-b3c7-439b-916c-e502a47c9617"
+   
 }
 
 
