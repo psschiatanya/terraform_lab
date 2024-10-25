@@ -6,3 +6,8 @@ pool:
 
 steps:
   - script: echo Hello, World
+
+  - task: TerraformCLI@0
+    displayName: Install Terraform
+    inputs:
+      terraformVersion: latest
