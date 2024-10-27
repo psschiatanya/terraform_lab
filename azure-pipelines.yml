@@ -5,7 +5,7 @@ trigger:
 
 # Pipeline Variables
 variables:
-  terraformVersion: '1.5.3'                     # Specify the desired Terraform version
+  terraformVersion: '1.0.11'                     # Specify the desired Terraform version
   azureServiceConnection: 'azure_connection'  # Replace with your Azure DevOps service connection name
   tfWorkingDirectory: './terraform'             # Directory where your Terraform code resides (update if needed)
 
