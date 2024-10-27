@@ -16,9 +16,16 @@ pool:
 steps:
   # Step 1: Install Terraform
    - script: |
+      echo "Downloading Terraform..."
       curl -sSL https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip -o terraform.zip
+      
+      echo "Unzipping Terraform package..."
       unzip terraform.zip
-      sudo mv terraform /usr/local/bin/
+
+      echo "Moving Terraform to /usr/local/bin..."
+      sudo mv terraform /usr/local/bin/terraform
+      
+      echo "Checking Terraform version..."
       terraform -version
      displayName: 'Install Terraform'
 
