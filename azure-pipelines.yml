@@ -6,7 +6,7 @@ trigger:
 # Pipeline Variables
 variables:
   terraformVersion: '1.5.3'                     # Specify the desired Terraform version
-  azureServiceConnection: 'AzureServiceConnectionName'  # Replace with your Azure DevOps service connection name
+  azureServiceConnection: 'azure_connection'  # Replace with your Azure DevOps service connection name
   tfWorkingDirectory: './terraform'             # Directory where your Terraform code resides (update if needed)
 
 # Pool definition
@@ -15,34 +15,35 @@ pool:
 
 steps:
   # Step 1: Install Terraform
-  - task: UseTerraformVersion@0
-    displayName: 'Install Terraform'
-    inputs:
-      terraformVersion: $(terraformVersion)
+   - script: |
+      curl -sSL https://releases.hashicorp.com/terraform/${terraformVersion}/terraform_${terraformVersion}_linux_amd64.zip -o terraform.zip
+      unzip terraform.zip
+      sudo mv terraform /usr/local/bin/
+      terraform -version
+     displayName: 'Install Terraform'
 
   # Step 2: Terraform Init
-  - task: TerraformCLI@0
-    displayName: 'Terraform Init'
-    inputs:
-      command: 'init'
-      workingDirectory: $(tfWorkingDirectory)
-      environmentServiceName: $(azureServiceConnection)
+   - task: TerraformCLI@0
+     displayName: 'Terraform Init'
+     inputs:
+        command: 'init'
+        workingDirectory: $(tfWorkingDirectory)
+        environmentServiceName: $(azureServiceConnection)
 
   # Step 3: Terraform Plan
-  - task: TerraformCLI@0
-    displayName: 'Terraform Plan'
-    inputs:
-      command: 'plan'
-      workingDirectory: $(tfWorkingDirectory)
-      environmentServiceName: $(azureServiceConnection)
-
+   - task: TerraformCLI@0
+     displayName: 'Terraform Plan'
+     inputs:
+        command: 'Plan'
+        workingDirectory: $(tfWorkingDirectory)
+        environmentServiceName: $(azureServiceConnection)
+        
   # Step 4: Terraform Apply
-  - task: TerraformCLI@0
-    displayName: 'Terraform Apply'
-    inputs:
-      command: 'apply'
-      workingDirectory: $(tfWorkingDirectory)
-      environmentServiceName: $(azureServiceConnection)
-      commandOptions: '-auto-approve'  # Skips the confirmation prompt
-
+   - task: TerraformCLI@0
+     displayName: 'Terraform Apply'
+     inputs:
+        command: 'Apply'
+        workingDirectory: $(tfWorkingDirectory)
+        environmentServiceName: $(azureServiceConnection)
+        commandOptions: '-auto-approve'  # Skips the confirmation prompt
 
