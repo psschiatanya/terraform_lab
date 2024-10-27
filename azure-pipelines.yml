@@ -26,7 +26,7 @@ steps:
      inputs:
        provider: 'azurerm'
        command: 'init'       
-       workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+       workingDirectory: '$(System.DefaultWorkingDirectory)'
      displayName: 'Terraform Init'
 
  
