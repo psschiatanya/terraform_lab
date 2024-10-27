@@ -25,7 +25,8 @@ steps:
    - task: TerraformTaskV4@4
      inputs:
        provider: 'azurerm'
-       command: 'init'       
+       command: 'init'
+       backendServiceArm: 'azure_connection'       
        workingDirectory: '$(System.DefaultWorkingDirectory)'
      displayName: 'Terraform Init'
 
