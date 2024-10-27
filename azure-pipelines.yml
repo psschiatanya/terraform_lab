@@ -36,7 +36,7 @@ steps:
      displayName: 'Terraform Init'
      inputs:
         command: 'init'
-        workingDirectory: $(tfWorkingDirectory)
+        workingDirectory:  '$(System.DefaultWorkingDirectory)/terraform'
         environmentServiceName: $(azureServiceConnection)
 
   # Step 3: Terraform Plan
