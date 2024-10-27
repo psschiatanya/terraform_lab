@@ -5,10 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  ARM_CLIENT_ID: '<ServicePrincipalAppId>'
-  ARM_CLIENT_SECRET: '<ServicePrincipalPassword>'
-  ARM_SUBSCRIPTION_ID: '<SubscriptionID>'
-  ARM_TENANT_ID: '<TenantID>'
+  ARM_CLIENT_ID: $(ServicePrincipalAppId)
+  ARM_CLIENT_SECRET: $(ServicePrincipalPassword)
+  ARM_SUBSCRIPTION_ID: $(SubscriptionID)
+  ARM_TENANT_ID: $(TenantID)
 
 steps:
 - task: UsePythonVersion@0
