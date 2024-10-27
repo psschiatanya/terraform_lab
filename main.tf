@@ -1,17 +1,25 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source = "hashicorp/azurerm"
+      version = "4.7.0"
+    }
+  }
+}
+
 provider "azurerm" {
   features {}
-  subscription_id = var.subscription_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
+   # Optional: Specify the subscription ID if needed
+  subscription_id = "b5ab04a8-e99d-4a42-820b-f823d113ed94"
 }
 
-variable "subscription_id" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
-
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
+resource "azurerm_resource_group" "existing_rg" {
+  name = "rg-terraform"
+  location = "Australia East"  
 }
+
+resource "azurerm_resource_group" "tfstate" {
+  name     = "tfstate"
+  location = "Australia East"
+}
+
