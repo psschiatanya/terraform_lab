@@ -22,5 +22,19 @@ steps:
 - script: |
     echo Bye
   displayName: 'Bye Script'    
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@1
+  inputs:
+   terraformVersion: 'latest'
+- task: AzureCLI@2
+  inputs:
+   azureSubscription: 'azure_connection'
+   scriptLocation: 'inlineScript'
+   inlineScript: |
+     terraform init
+       
+        
+
+    
+    
 
     
