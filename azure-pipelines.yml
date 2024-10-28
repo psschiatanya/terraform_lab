@@ -36,16 +36,20 @@ steps:
       az login --service-principal -u $(AZURE_CLIENT_ID) -p $(AZURE_CLIENT_SECRET) --tenant $(AZURE_TENANT_ID)
       az account set --subscription $(AZURE_SUBSCRIPTION_ID)
 
-- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+- task: TerraformTaskV2@2
   displayName: " Terrafrom Init"
   inputs:
     command: init
+    provider: azurerm
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     backendServiceArm: azure_connection
     backendAzureRmResourceGroupName: 'tfstate-tfdemo-rg'
     backendAzureRmStorageAccountName: 'tfstatedemostg1234'
     backendAzureRmContainerName: 'terraformstatecontainer'
     backendAzureRmKey: 'terraform.tfstate'
-    workingDirectory: $(System.DefaultWorkingDirectory)
+    commandOptions: '-lock=false'
+    
+    
     
       
       
