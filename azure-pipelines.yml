@@ -28,7 +28,7 @@ steps:
 - task: AzureCLI@2
   displayName: "Login to Azure"
   inputs:
-   azureSubscription: azure_connection
+    azureSubscription: azure_connection
        
         
 
