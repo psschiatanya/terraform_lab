@@ -49,6 +49,14 @@ steps:
     backendAzureRmKey: 'terraform.tfstate'
     commandOptions: '-lock=false'
     
+- task: TerraformTaskV3@3
+  displayName: " Terrafrom Plan"  
+  inputs:
+    command: plan
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    environmentServiceNameAzureRM: azure_connection
+    
+    
     
     
       
