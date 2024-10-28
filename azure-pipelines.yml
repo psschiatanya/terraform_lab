@@ -18,5 +18,9 @@ steps:
     echo See https://aka.ms/yaml
     echo Hello world 2 
   displayName: 'Run a multi-line script'
+  
+- script: |
+    echo Bye
+  displayName: 'Bye Script'    
 
     
