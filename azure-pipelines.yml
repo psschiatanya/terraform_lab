@@ -56,15 +56,16 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     environmentServiceNameAzureRM: azure_connection
 
-#- task: TerraformTaskV3@3
-#  displayName: " Terraform Apply"   
-#  inputs:
-#    command: apply
-#    workingDirectory: '$(System.DefaultWorkingDirectory)'
-#    environmentServiceNameAzureRM: azure_connection
+- task: TerraformTaskV3@3
+  displayName: " Terraform Apply"   
+  inputs:
+    command: apply
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    environmentServiceNameAzureRM: azure_connection
     
 - task: TerraformTaskV3@3
   displayName: "Terrafrom Destroy"
+  condition: false
   inputs:
     command: destroy
     environmentServiceNameAzureRM: azure_connection
