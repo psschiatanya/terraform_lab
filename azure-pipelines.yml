@@ -41,10 +41,10 @@ steps:
   inputs:
     command: init
     backendServiceArm: azure_connection
-    backendAzureRmResourceGroupName: tfstate-tfdemo-rg
-    backendAzureRmStorageAccountName: tfstatedemostg1234
-    backendAzureRmContainerName: terraformstatecontainer
-    backendAzureRmKey: terraform.tfstate
+    backendAzureRmResourceGroupName: 'tfstate-tfdemo-rg'
+    backendAzureRmStorageAccountName: 'tfstatedemostg1234'
+    backendAzureRmContainerName: 'terraformstatecontainer'
+    backendAzureRmKey: 'terraform.tfstate'
     workingDirectory: $(System.DefaultWorkingDirectory)
     
       
