@@ -26,12 +26,9 @@ steps:
   inputs:
    terraformVersion: 'latest'
 - task: AzureCLI@2
+  displayName: "Login to Azure"
   inputs:
-   azureSubscription: 'azure_connection'
-   scriptLocation: 'inlineScript'
-   inlineScript: |
-     terraform init
-     terrafrom apply -auto-approve
+   azureSubscription: azure_connection
        
         
 
