@@ -10,7 +10,7 @@ trigger:
 #  vmImage: ubuntu-latest
 
 pool:
-  name: myVM
+  name: Default
 
 steps:
 - script: echo Hello, world!
